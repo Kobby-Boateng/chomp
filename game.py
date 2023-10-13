@@ -1,3 +1,5 @@
+import sys
+
 import pygame
 import time
 
@@ -16,6 +18,9 @@ pygame.display.flip()
 while True:
     for event in pygame.event.get():
 
+
         if event.type == pygame.QUIT:
-            print ("you're stuck here forever")
+            print ("Thanks for Playing ")
+            pygame.quit()
+            sys.exit()
 
