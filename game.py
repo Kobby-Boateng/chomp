@@ -1,17 +1,11 @@
 import sys
 import pygame
+import random
+from settings import *
 
-# dimensions
-SCREEN_WIDTH = 600
-SCREEN_HEIGHT = 400
-SAND_HEIGHT = 20
-TILE_SIZE = 64  # tile are square height == width
-
-# colors
-WATER_COLOR = (100, 53, 255)
-SAND_COLOR = (100, 25, 0)
 pygame.init()
 
+game_font = pygame.font.Font("assets/fonts/Black_Crayon.ttf", 69)
 screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
 pygame.display.set_caption("chomp!!!")
 screen.fill(WATER_COLOR)
@@ -20,8 +14,32 @@ pygame.draw.rect(screen, SAND_COLOR, (0,
                                       SCREEN_WIDTH,
                                       SAND_HEIGHT))
 sand = pygame.image.load("assets/images/sand.png").convert()
-screen.blit(sand, (SCREEN_WIDTH/2 - TILE_SIZE/2,
-                   SCREEN_HEIGHT/2 - TILE_SIZE/2))
+for i in range(SCREEN_WIDTH // TILE_SIZE):
+    print(i)
+    screen.blit(sand, (i * TILE_SIZE,
+                       SCREEN_HEIGHT - TILE_SIZE))
+# bit sand tiles across the bottom of the screen
+
+sand_top = pygame.image.load("assets/images/sand_top.png").convert()
+sand_top.set_colorkey((0, 0, 0))
+for i in range(SCREEN_WIDTH // TILE_SIZE):
+    print(i)
+    screen.blit(sand_top, (i * TILE_SIZE,
+                           SCREEN_HEIGHT - 2 * TILE_SIZE))
+
+# randomly place 4 pieces of grass along the bottom of the screen
+SEAGRASS = pygame.image.load("Assets/images/seagrass.png").convert()
+SEAGRASS.set_colorkey((0, 0, 0))
+for i in range(4):
+    x = random.randint(0, SCREEN_WIDTH)
+    # offset the seaweed so it looks better
+    y = random.randint(SCREEN_HEIGHT - 2 * TILE_SIZE, SCREEN_HEIGHT) - int(.5 * TILE_SIZE)
+    screen.blit(SEAGRASS, (x, y))
+# draw the CHOMP! title
+text = game_font.render("Chomp!",True, (255,69,0))
+
+screen.blit(text, (SCREEN_WIDTH//2 - text.get_width()//2,SCREEN_HEIGHT//2 - text.get_height()//2))
+
 pygame.display.flip()
 while True:
     for event in pygame.event.get():
